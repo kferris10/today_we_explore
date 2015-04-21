@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html lang = "en">
+<head>
+	<meta charset="utf-8" />
+	<title>Today, we explore</title>
+	<!-- Leaflet -->
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<!-- Omnivore -->
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+	<!-- MovingMarker -->
+	<script type="text/javascript" src="MovingMarker.js"></script>
+	<!-- D3 -->
+	<script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>
+</head>
+<body>
+	<style type="text/css">
+		body { margin:0; padding:0; }
+  		#map { position:absolute; top:0; bottom:0; width:100%; }
+	</style>
+
+	<div id = "map">
+		<script type="text/javascript">
+			
+			// initialize the map
+			var map = L.map('map').setView([46.57573, -112.0307], 13);
+			// add tiles to map
+			mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
+			L.tileLayer(
+			   		'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			    	attribution: '&copy; ' + mapLink + ' Contributors',
+			    	maxZoom: 18,
+			    })
+				.addTo(map);
+
+			// add popup for Keenan's house
+			L.marker([46.58771, -112.0250]).addTo(map)
+			    .bindPopup("Keenan's house?");
+
+			// add popup for the blackfoot
+			L.marker([46.58633, -112.0417]).addTo(map)
+			    .bindPopup('All trails end at the blackfoot.');
+
+			// add line for route
+			var runLayer = omnivore.gpx('Today, we explore.gpx')
+			    .on('ready', function() {
+			        map.fitBounds(runLayer.getBounds());
+			    })
+			    .addTo(map);
+
+			// d3 stuff
+			var svg = d3.select(map.getPanes().overlayPane).append("svg");
+			var g = svg.append("g").attr("class", "leaflet-zoom-hide");
+
+			var mydata;
+			d3.csv("keenan_gps.csv", function(data) {
+				// Do stuff here
+				data.forEach(function(d) {
+					d[0] = + d.lon;
+					d[1] = + d.lat;
+				});
+				mydata = data;
+
+
+			});
+
+			var marker2 = L.Marker.movingMarker(
+					[[46.5877, -112.025], [46.586, -112.042]], 
+						[10000], {autostart: true})
+					.addTo(map);
+				marker2.start();
+
+			
+		</script>
+	</div>
+</body>
+</html>
