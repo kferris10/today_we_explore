@@ -7,11 +7,10 @@
 	<!-- Leaflet -->
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-	<!-- Omnivore -->
-	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
 	<!-- MovingMarker -->
 	<script type="text/javascript" src="MovingMarker.js"></script>
+	<!-- AnimatedMarker -->
+	<script type="text/javascript" src="AnimatedMarker.js"></script>
 	<!-- D3 -->
 	<script src="http://d3js.org/d3.v3.min.js" type="text/javascript"></script>
 </head>
@@ -43,13 +42,6 @@
 			L.marker([46.58633, -112.0417]).addTo(map)
 			    .bindPopup('All trails end at the blackfoot.');
 
-			// add line for route
-			var runLayer = omnivore.gpx('Today, we explore.gpx')
-			    .on('ready', function() {
-			        map.fitBounds(runLayer.getBounds());
-			    })
-			    .addTo(map);
-
 			// d3 stuff
 			var svg = d3.select(map.getPanes().overlayPane).append("svg");
 			var g = svg.append("g").attr("class", "leaflet-zoom-hide");
@@ -58,21 +50,50 @@
 			d3.csv("keenan_gps.csv", function(data) {
 				// Do stuff here
 				data.forEach(function(d) {
-					d[0] = + d.lon;
-					d[1] = + d.lat;
+					d.lon = + d.lon;
+					d.lat = + d.lat;
 				});
-				mydata = data;
+				var line = L.polyline(data);
 
 
 			});
 
+/* Moving Marker
 			var marker2 = L.Marker.movingMarker(
-					[[46.5877, -112.025], [46.586, -112.042]], 
-						[10000], {autostart: true})
+					[
+						[46.58774, -112.0250], 
+						[46.58774, -112.0311], 
+						[46.58941, -112.0352], 
+						[46.58751, -112.0372], 
+						[46.58925, -112.0375], 
+						[46.58663, -112.0390], 
+						[46.58608, -112.0387], 
+						[46.58401, -112.0410], 
+						[46.58274, -112.0437], 
+						[46.58290, -112.0140]
+					], 
+						[1000], {autostart: true})
 					.addTo(map);
 				marker2.start();
+*/
+/*
+			var line = L.polyline([
+						[46.58774, -112.0250], 
+						[46.58774, -112.0311], 
+						[46.58941, -112.0352], 
+						[46.58751, -112.0372], 
+						[46.58925, -112.0375], 
+						[46.58663, -112.0390], 
+						[46.58608, -112.0387], 
+						[46.58401, -112.0410], 
+						[46.58274, -112.0437], 
+						[46.58290, -112.0140]
+					]), 
+				animatedMarker = L.animatedMarker(line.getLatLngs());
+			map.addLayer(animatedMarker);
+			*/
 
-			
+
 		</script>
 	</div>
 </body>
