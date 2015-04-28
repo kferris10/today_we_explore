@@ -42,7 +42,14 @@
 			    .bindPopup("Keenan's house?");
 
 			// add popup for the blackfoot
-			L.marker([46.58633, -112.0417]).addTo(map)
+			var blackfootIcon = L.icon({
+				iconUrl: 'beer-icon.png', 
+				iconAnchor:   [30, 29], 
+			    shadowAnchor: [4, 62],  
+			    popupAnchor:  [-3, -7] 
+			});
+			L.marker([46.58633, -112.0417], {icon: blackfootIcon})
+				.addTo(map)
 			    .bindPopup('All trails end at the blackfoot.');
 
 
