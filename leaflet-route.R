@@ -18,6 +18,7 @@ str(dataMap.SP) # Now is class SpatialPointsDataFrame
 #Write as geojson
 writeOGR(dataMap.SP, 'keenan_bike.geojson','dataMap', driver='GeoJSON')
 
+# leaflet plot
 p1 <- leaflet() %>% 
   addTiles() %>% 
   setView(lng = -112.0307, lat = 46.57573, zoom = 13) %>% 
@@ -25,3 +26,9 @@ p1 <- leaflet() %>%
 p1
 
 jsonedit(p1)
+
+# ggplot
+library(ggplot2)
+library(ggmap)
+qplot(lon, lat, data = y, geom = "path")
+gglocator(40)
