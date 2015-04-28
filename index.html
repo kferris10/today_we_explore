@@ -34,7 +34,10 @@
 
 			// bike icon
 			var bikeIcon = L.icon({
-				iconUrl: 'marker-bike-green-shadowed.png'
+				iconUrl: 'marker-bike-green-shadowed.png',
+			    iconSize:     [25, 39],
+			    iconAnchor:   [12, 39],
+			    shadowUrl:    null
 			});
 
 			// add popup for Keenan's house
@@ -46,7 +49,7 @@
 				iconUrl: 'beer-icon.png', 
 				iconAnchor:   [30, 29], 
 			    shadowAnchor: [4, 62],  
-			    popupAnchor:  [-3, -7] 
+			    popupAnchor:  [-3, -7]
 			});
 			L.marker([46.58633, -112.0417], {icon: blackfootIcon})
 				.addTo(map)
@@ -69,7 +72,8 @@
 					animatedMarker = L.animatedMarker(
 										line.getLatLngs(), {
 											icon: bikeIcon
-										});
+										})
+										.bindPopup("The Bike Master!");
 				// adding line and marker to map
 				line.addTo(map);
 				map.addLayer(animatedMarker);
