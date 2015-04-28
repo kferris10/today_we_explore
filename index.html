@@ -37,6 +37,7 @@
 				iconUrl: 'marker-bike-green-shadowed.png'
 			});
 
+			// add popup for Keenan's house
 			L.marker([46.58771, -112.0250]).addTo(map)
 			    .bindPopup("Keenan's house?");
 
@@ -60,7 +61,7 @@
 				var line = L.polyline(data), 
 					animatedMarker = L.animatedMarker(
 										line.getLatLngs(), {
-											icon: myIcon
+											icon: bikeIcon
 										});
 				// adding line and marker to map
 				line.addTo(map);
